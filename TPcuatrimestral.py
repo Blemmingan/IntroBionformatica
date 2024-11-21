@@ -37,28 +37,38 @@ def find_orfs(sequence, min_length=100):
     return orfs
 
 
-def extract_orfs_from_genbank(genbank_file, output_fasta):
+def extract_orfs_from_genbank(genbank_file, output_fasta, output_whole_seq_fasta):
     """
     Extracts ORFs from a GenBank file and writes them in FASTA format.
+    It also writes the whole sequence to a separate FASTA file.
     
     Parameters:
     - genbank_file (str): Path to the GenBank file.
     - output_fasta (str): Output FASTA file to store the protein sequences.
+    - output_whole_seq_fasta (str): Output FASTA file to store the whole sequence.
     """
-    with open(output_fasta, "w") as fasta_handle:
+    with open(output_fasta, "w") as fasta_handle, open(output_whole_seq_fasta, "w") as whole_seq_handle:
         # Parse the GenBank file
         for record in SeqIO.parse(genbank_file, "genbank"):
             print(f"Processing GenBank record {record.id}...")
+            
             # Extract and translate the ORFs from the sequence
             orfs = find_orfs(record.seq)
+            
             # Write each ORF to the FASTA file
             SeqIO.write(orfs, fasta_handle, "fasta")
             print(f"{len(orfs)} ORFs found and written to {output_fasta}")
+            
+            # Write the whole sequence to a separate FASTA file
+            whole_seq_record = SeqRecord(record.seq, id=record.id, description="Whole sequence")
+            SeqIO.write(whole_seq_record, whole_seq_handle, "fasta")
+            print(f"Whole sequence written to {output_whole_seq_fasta}")
 
 
 # Example usage
 if __name__ == "__main__":
     genbank_file = "sequence.gbk"
-    output_fasta = "orfs.fas"  # Output FASTA file for BLAST
-    extract_orfs_from_genbank(genbank_file, output_fasta)
+    output_fasta = "orfs.fas"  # Output FASTA file for ORFs
+    output_whole_seq_fasta = "whole_sequence.fas"  # Output FASTA file for the whole sequence
+    extract_orfs_from_genbank(genbank_file, output_fasta, output_whole_seq_fasta)
 

@@ -1,19 +1,19 @@
 #!/bin/bash
 
-# Check if the Python script exists, else exit immediately.
+# Check if the first Python script exists, else exit immediately.
 if [ ! -f "TPcuatrimestral.py" ]; then
     echo "Python script TPcuatrimestral.py not found!"
     exit 1
 fi
 
-# Run the Python script to generate the FASTA file
+# Run the first Python script to generate the FASTA file
 python3 TPcuatrimestral.py
 
-# Check if the Python script executed successfully
+# Check if the first Python script executed successfully
 if [ $? -eq 0 ]; then
-    echo "Python script executed successfully."
+    echo "First Python script executed successfully."
 else
-    echo "An error occurred while running the Python script."
+    echo "An error occurred while running the first Python script."
     exit 1
 fi
 
@@ -25,6 +25,8 @@ if [[ ! -f "$input_fasta" ]]; then
     echo "Error: The input file '$input_fasta' does not exist."
     exit 1
 fi
+
+############## End of the first part
 
 # Output file for BLAST results
 output_file="blast_results.xml"
@@ -39,7 +41,7 @@ if [[ -f "$output_file" ]]; then
 fi
 
 # Run the Python script for BLAST analysis
-echo "Running BLASTs, will stop at 10 hits or it will take a very long time."
+echo "Running BLAST, will stop at 10 hits or it will take a very long time."
 echo "Running BLAST for the file '$input_fasta'..."
 
 # Call the Python script to run BLAST
@@ -66,4 +68,19 @@ if [[ $? -ne 0 ]]; then
 fi
 
 echo "Alignment completed successfully. The aligned sequences have been saved."
+
+############## New section to call the last Python script (TPCuatrimestralEj4.py)
+
+# Finally, call the TPCuatrimestralEj4.py script after everything else is done
+echo "Running final Python script TPCuatrimestralEj4.py..."
+
+python3 TPCuatrimestralEj4.py
+
+# Check if the final Python script executed successfully
+if [[ $? -ne 0 ]]; then
+    echo "Error: Final Python script TPCuatrimestralEj4.py failed."
+    exit 1
+fi
+
+echo "Final analysis completed successfully by TPCuatrimestralEj4.py."
 
