@@ -84,3 +84,18 @@ fi
 
 echo "Final analysis completed successfully by TPCuatrimestralEj4.py."
 
+############## New section to call the Python_ej5.py script
+
+# Finally, call the Python_ej5.py script
+echo "Running Python script Python_ej5.py..."
+
+python3 Python_ej5.py
+
+# Check if the Python_ej5.py script executed successfully
+if [[ $? -ne 0 ]]; then
+    echo "Error: Python script Python_ej5.py failed."
+    exit 1
+fi
+
+echo "Python script Python_ej5.py executed successfully."
+

@@ -1,0 +1,9 @@
+{
+    "sequence": "ATGAGCTAGGCTAGCTAGGCTAGCTAGCGTACGTAGCTAGCTAG",
+    "num_primers": 5,
+    "min_len": 18,
+    "max_len": 24,
+    "min_gc": 50,
+    "max_gc": 60,
+    "max_tm": 67
+}

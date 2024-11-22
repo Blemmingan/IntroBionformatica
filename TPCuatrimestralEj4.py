@@ -27,7 +27,7 @@ def run_patmatmotifs(protein_fasta, output_file, prosite_db_path):
     - prosite_db_path (str): ruta al archivo prosite.dat con la base de datos PROSITE.
     """
     # Ejecutar EMBOSS patmatmotifs para buscar dominios en las proteínas
-    subprocess.run(['patmatmotifs', '-sequence', protein_fasta, '-prositefile', prosite_db_path, '-outfile', output_file], check=True)
+    subprocess.run(['patmatmotifs', '-sequence', protein_fasta, '-outfile', output_file], check=True)
 
 def main(input_fasta, output_orfs, output_patmatmotifs_results, prosite_db_path):
     """
