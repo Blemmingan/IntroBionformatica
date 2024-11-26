@@ -89,7 +89,7 @@ echo "Final analysis completed successfully by TPCuatrimestralEj4.py."
 # Finally, call the Python_ej5.py script
 echo "Running Python script Python_ej5.py..."
 
-python3 Python_ej5.py > primers_results.txt
+python3 Python_ej5.py
 
 # Check if the Python_ej5.py script executed successfully
 if [[ $? -ne 0 ]]; then

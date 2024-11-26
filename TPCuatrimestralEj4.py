@@ -14,20 +14,30 @@ def run_getorf(input_fasta, output_fasta):
     - output_fasta (str): archivo FASTA de salida para las secuencias de proteínas (ORFs).
     """
     # Ejecutar EMBOSS getorf
+    
     subprocess.run(['getorf', '-sequence', input_fasta, '-outseq', output_fasta, '-minsize', '100'], check=True)
 
 def run_patmatmotifs(protein_fasta, output_file, prosite_db_path):
     """
     Realiza el análisis de dominios en las secuencias de proteínas utilizando patmatmotifs de EMBOSS,
     usando la base de datos PROSITE.
+	
 
     Parameters:
     - protein_fasta (str): archivo FASTA con las secuencias de proteínas.
     - output_file (str): archivo de salida para los resultados del análisis de dominios.
     - prosite_db_path (str): ruta al archivo prosite.dat con la base de datos PROSITE.
     """
+    with open(output_orfs, 'r') as f:
+    	sequences = f.read().split('>')[1:]
+    	for seq in sequences:
+       	 header, sequence = seq.split('\n', 1)
+       	 sequence = ''.join(sequence.split())
+         print(f"Sequence length: {len(sequence)}")
+
     # Ejecutar EMBOSS patmatmotifs para buscar dominios en las proteínas
-    subprocess.run(['patmatmotifs', '-sequence', protein_fasta, '-outfile', output_file], check=True)
+    subprocess.run(['patmatmotifs', '-sequence', protein_fasta, '-outfile', output_file, '-prune=false'], check=True)
+
 
 def main(input_fasta, output_orfs, output_patmatmotifs_results, prosite_db_path):
     """
@@ -61,7 +71,7 @@ if __name__ == "__main__":
     output_patmatmotifs_results = "dominios_resultados_patmatmotifs.txt"
     
     # Ruta al archivo prosite.dat (base de datos PROSITE)
-    prosite_db_path = "prosite.dat" 
+    prosite_db_path = "PROSITE/prosite.dat" 
     
     # Ejecutar el análisis
     main(input_fasta, output_orfs, output_patmatmotifs_results, prosite_db_path)
