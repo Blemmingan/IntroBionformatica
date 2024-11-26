@@ -58,14 +58,21 @@ def read_config(config_file):
         config = json.load(f)
     return config
 
+# Function to read sequence from a FASTA file
+def read_fasta(fasta_file):
+    # Reads the first sequence from the FASTA file
+    with open(fasta_file, "r") as f:
+        for record in SeqIO.parse(f, "fasta"):
+            # Assuming you want the first sequence in the file
+            return record.seq
 
 # Main function
 def main():
     # Read config file
     config = read_config('primer_config.json')
 
-    # Input sequence (for testing purposes)
-    sequence = Seq(config["sequence"])
+    # Input sequence (read from a FASTA file)
+    sequence = read_fasta('whole_sequence.fas')
 
     # Design primers
     primers = design_primers(sequence, num_primers=config["num_primers"], min_len=config["min_len"], max_len=config["max_len"], min_gc=config["min_gc"], max_gc=config["max_gc"], max_tm=config["max_tm"])
